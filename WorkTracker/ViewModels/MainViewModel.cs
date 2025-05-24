@@ -29,14 +29,34 @@ namespace WorkTracker.ViewModels
             LoadWorkStages();
         }
 
-        private void LoadWorkStages()
+        public void LoadWorkStages()
         {
             WorkStages.Clear();
             foreach (var stage in _context.WorkStages)
             {
                 WorkStages.Add(stage);
             }
-            OnPropertyChanged(nameof(TotalEarnings));  
+            OnPropertyChanged(nameof(TotalEarnings));
+        }
+        public void AddWorkStage(WorkStage workStage)
+        {
+            _context.WorkStages.Add(workStage);
+            _context.SaveChanges();
+            WorkStages.Add(workStage);
+            OnPropertyChanged(nameof(TotalEarnings));
+        }
+        public void RemoveWorkStage(WorkStage workStage)
+        {
+            _context.WorkStages.Remove(workStage);
+            _context.SaveChanges();
+            WorkStages.Remove(workStage);
+            OnPropertyChanged(nameof(TotalEarnings));
+        }
+        public void UpdateWorkStage(WorkStage workStage)
+        {
+            _context.WorkStages.Update(workStage);
+            _context.SaveChanges();
+            OnPropertyChanged(nameof(TotalEarnings));
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkTracker.Data;
+using WorkTracker.Models;
 using WorkTracker.ViewModels;
 
 namespace WorkTracker.Views
@@ -18,14 +19,31 @@ namespace WorkTracker.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly AddDbContext _context;
+        private MainViewModel _viewModel;
         public MainWindow()
         {
             InitializeComponent();
 
-            var context = new AddDbContext();
-            var viewModel = new MainViewModel(context);
+            _context = new AddDbContext();
+            _viewModel = new MainViewModel(_context);
 
-            DataContext = viewModel;
+            DataContext = _viewModel;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var start = StartDate.SelectedDate ?? DateTime.Now;
+            var end = EndDate.SelectedDate ?? DateTime.Now;
+            if (end < start) return;
+
+            var stage = new WorkStage
+            {
+                Name = Name.Text,
+                StartTime = start,
+                EndTime = end
+            };
+            _viewModel.AddWorkStage(stage);
         }
     }
 }
