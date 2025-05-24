@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WorkTracker.Data;
+using WorkTracker.ViewModels;
 
 namespace WorkTracker.Views
 {
@@ -19,6 +21,11 @@ namespace WorkTracker.Views
         public MainWindow()
         {
             InitializeComponent();
+
+            var context = new AddDbContext();
+            var viewModel = new MainViewModel(context);
+
+            DataContext = viewModel;
         }
     }
 }
