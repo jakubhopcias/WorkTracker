@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:WorkTracker"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="Control">
+            <Setter Property="FontFamily" Value="pack://application:,,,/Fonts/#Poppins Medium"/>
+        </Style>
     </Application.Resources>
 </Application>

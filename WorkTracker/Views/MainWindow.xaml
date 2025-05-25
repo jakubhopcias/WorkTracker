@@ -5,8 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkTracker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <StackPanel>
+        Title="MainWindow" Height="450" Width="800"
+        FontFamily="pack://application:,,,/Fonts/#Poppins Medium">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="LightGreen"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="15,5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                        CornerRadius="5"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <StackPanel Margin="15">
         <TextBlock Text="Dodaj nowy etap: " FontWeight="Bold" Margin="0 0 0 5"/>
 
         <StackPanel Orientation="Horizontal" Margin="0 0 0 10" HorizontalAlignment="Left">
@@ -37,26 +62,37 @@
                 <DatePicker x:Name="EndDate" Grid.Row="1" Width="150"/>
             </Grid>
 
-            <Button Content="Dodaj" VerticalAlignment="Bottom" Click="AddButton_Click"/>
+                <Button  Content="Dodaj" VerticalAlignment="Bottom" Click="AddButton_Click"/>
         </StackPanel>
 
 
         <TextBlock Text="Etapy pracy:" FontWeight="Bold" Margin="0 10 0 5"/>
 
-        <ListBox Name="WorkStagesListView" ItemsSource="{Binding WorkStages}" SelectedItem="{Binding SelectedWorkStage, Mode=TwoWay}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Id}" Width="150"/>
-                        <TextBlock Text="{Binding Name}" Width="150"/>
-                        <TextBlock Text="{Binding StartTime}" Width="150"/>
-                        <TextBlock Text="{Binding EndTime}" Width="150"/>
-                        <TextBlock Text="{Binding Duration}" Width="100"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Button Content="Usun wybrany element" Click="RemoveButton_Click"/>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                <TextBlock Text="Id" Width="150" FontWeight="Bold"/>
+                <TextBlock Text="Nazwa" Width="150" FontWeight="Bold"/>
+                <TextBlock Text="Początek" Width="150" FontWeight="Bold"/>
+                <TextBlock Text="Koniec" Width="150" FontWeight="Bold"/>
+                <TextBlock Text="Czas trwania" Width="100" FontWeight="Bold"/>
+            </StackPanel>
+
+            <ListBox Name="WorkStagesListView" ItemsSource="{Binding WorkStages}" SelectedItem="{Binding SelectedWorkStage, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Id}" Width="150"/>
+                            <TextBlock Text="{Binding Name}" Width="150"/>
+                            <TextBlock Text="{Binding StartTime}" Width="150"/>
+                            <TextBlock Text="{Binding EndTime}" Width="150"/>
+                            <TextBlock Text="{Binding Duration}" Width="100"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+        
+        <Button Content="Usun wybrany element" Width="150" Click="RemoveButton_Click"/>
         <TextBlock Text="Edytuj wybrany etap: " FontWeight="Bold" Margin="0 0 0 5"/>
 
         <StackPanel Orientation="Horizontal" Margin="0 0 0 10" HorizontalAlignment="Left" >
