@@ -8,19 +8,22 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using WorkTracker.Data;
 using WorkTracker.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.ComponentModel;
 
 namespace WorkTracker.ViewModels
 {
-    public partial class MainViewModel : ObservableObject
+    public partial class MainViewModel : ObservableObject, INotifyPropertyChanged
     {
+
         private readonly AddDbContext _context;
 
         public ObservableCollection<WorkStage> WorkStages { get; } = new();
 
-        [ObservableProperty]
-        private double hourlyRate = 50;
+        
+        private double _hourlyRate;
+        public double HourlyRate { get => _hourlyRate; set { _hourlyRate = value; OnPropertyChanged(); OnPropertyChanged(nameof(TotalEarnings)); } }
 
-        public double TotalEarnings => WorkStages.Sum(ws => ws.Duration.TotalHours * HourlyRate);
+        public double TotalEarnings => WorkStages.Sum(ws => ws.Duration.TotalHours * _hourlyRate);
 
         public MainViewModel(AddDbContext context)
         {
@@ -52,11 +55,18 @@ namespace WorkTracker.ViewModels
             WorkStages.Remove(workStage);
             OnPropertyChanged(nameof(TotalEarnings));
         }
-        public void UpdateWorkStage(WorkStage workStage)
+        public void UpdateWorkStage(WorkStage updatedWorkStage)
         {
-            _context.WorkStages.Update(workStage);
+            var existingStage = _context.WorkStages.Find(updatedWorkStage.Id);
+            if (existingStage == null) return;
+
+            existingStage.Name = updatedWorkStage.Name;
+            existingStage.StartTime = updatedWorkStage.StartTime;
+            existingStage.EndTime = updatedWorkStage.EndTime;
+
             _context.SaveChanges();
             OnPropertyChanged(nameof(TotalEarnings));
         }
+
     }
 }

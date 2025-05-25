@@ -9,19 +9,45 @@
     <StackPanel>
         <TextBlock Text="Dodaj nowy etap: " FontWeight="Bold" Margin="0 0 0 5"/>
 
-        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-            <TextBox x:Name="Name" Width="150" Margin="0 0 10 0"/>
-            <DatePicker x:Name="StartDate" Width="150" Margin="0 0 10 0"/>
-            <DatePicker x:Name="EndDate" Width="150" Margin="0 0 10 0"/>
-            <Button Content="Dodaj" Click="Button_Click"/>
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10" HorizontalAlignment="Left">
+            <Grid Margin="0 0 10 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Nazwa:" Grid.Row="0" HorizontalAlignment="Center" Margin="0 0 0 5"/>
+                <TextBox x:Name="Name" Grid.Row="1" Width="150"/>
+            </Grid>
+
+            <Grid Margin="0 0 10 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Początek:" Grid.Row="0" HorizontalAlignment="Center" Margin="0 0 0 5"/>
+                <DatePicker x:Name="StartDate" Grid.Row="1" Width="150"/>
+            </Grid>
+
+            <Grid Margin="0 0 10 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Koniec:" Grid.Row="0" HorizontalAlignment="Center" Margin="0 0 0 5"/>
+                <DatePicker x:Name="EndDate" Grid.Row="1" Width="150"/>
+            </Grid>
+
+            <Button Content="Dodaj" VerticalAlignment="Bottom" Click="AddButton_Click"/>
         </StackPanel>
+
 
         <TextBlock Text="Etapy pracy:" FontWeight="Bold" Margin="0 10 0 5"/>
 
-        <ListBox ItemsSource="{Binding WorkStages}">
+        <ListBox Name="WorkStagesListView" ItemsSource="{Binding WorkStages}" SelectedItem="{Binding SelectedWorkStage, Mode=TwoWay}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Id}" Width="150"/>
                         <TextBlock Text="{Binding Name}" Width="150"/>
                         <TextBlock Text="{Binding StartTime}" Width="150"/>
                         <TextBlock Text="{Binding EndTime}" Width="150"/>
@@ -30,7 +56,61 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button Content="Usun wybrany element" Click="RemoveButton_Click"/>
+        <TextBlock Text="Edytuj wybrany etap: " FontWeight="Bold" Margin="0 0 0 5"/>
 
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10" HorizontalAlignment="Left" >
+
+            <Grid Margin="0 0 10 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Id:" Grid.Row="0" HorizontalAlignment="Center" Margin="0 0 0 5"/>
+                <TextBox x:Name="IdEdit" Grid.Row="1" Width="150"/>
+            </Grid>
+
+            <Grid Margin="0 0 10 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Nazwa:" Grid.Row="0" HorizontalAlignment="Center" Margin="0 0 0 5"/>
+                <TextBox x:Name="NameEdit" Grid.Row="1" Width="150"/>
+            </Grid>
+
+            <Grid Margin="0 0 10 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Początek:" Grid.Row="0" HorizontalAlignment="Center" Margin="0 0 0 5"/>
+                <DatePicker x:Name="StartDateEdit" Grid.Row="1" Width="150"/>
+            </Grid>
+
+            <Grid Margin="0 0 10 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Koniec:" Grid.Row="0" HorizontalAlignment="Center" Margin="0 0 0 5"/>
+                <DatePicker x:Name="EndDateEdit" Grid.Row="1" Width="150"/>
+            </Grid>
+
+            <Button Content="Zapisz" VerticalAlignment="Bottom" Click="EditButton_Click"/>
+
+        </StackPanel>
+
+        <Grid Margin="0 0 10 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Podaj inną stawkę:" Grid.Row="0" HorizontalAlignment="Center" Margin="0 0 0 5"/>
+            <TextBox Grid.Row="1" x:Name="HourlyRate" Text="{Binding HourlyRate}" Width="150"/>
+            <Button Grid.Row="2" Name="SetHourlyRateButton" Content="Ustaw stawkę" Click="SetHourlyRateButton_Click" Width="150"/>
+        </Grid>
         <TextBlock Margin="0 20 0 0" FontWeight="Bold" FontSize="16" Text="{Binding TotalEarnings, StringFormat=Wypłata: {0:F2} zł}"/>
     </StackPanel>
 </Window>

@@ -29,9 +29,9 @@ namespace WorkTracker.Views
             _viewModel = new MainViewModel(_context);
 
             DataContext = _viewModel;
+            _viewModel.HourlyRate = 50;
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             var start = StartDate.SelectedDate ?? DateTime.Now;
             var end = EndDate.SelectedDate ?? DateTime.Now;
@@ -44,6 +44,34 @@ namespace WorkTracker.Views
                 EndTime = end
             };
             _viewModel.AddWorkStage(stage);
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var stage = WorkStagesListView.SelectedItem as WorkStage;
+            _viewModel.RemoveWorkStage(stage);
+        }
+        
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var id = int.Parse(IdEdit.Text);
+            var editStart = StartDateEdit.SelectedDate ?? DateTime.Now;
+            var editEnd = EndDateEdit.SelectedDate ?? DateTime.Now;
+
+            var editedStage = new WorkStage
+            {
+                Id = id,
+                Name = NameEdit.Text,
+                StartTime = editStart,
+                EndTime = editEnd
+            };
+            _viewModel.UpdateWorkStage(editedStage);
+        }
+
+        private void SetHourlyRateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var rate = double.Parse(HourlyRate.Text);
+            _viewModel.HourlyRate = rate;
         }
     }
 }
